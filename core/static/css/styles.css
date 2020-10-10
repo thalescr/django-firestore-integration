@@ -1,0 +1,81 @@
+/* Background and navbar */
+
+body {
+    background-color: #dddddd;
+}
+
+.nav-item {
+    padding: 1rem;
+}
+
+.p-left {
+    padding-left: 1rem;
+}
+
+.p-right {
+    padding-right: 1rem;
+}
+
+.logo {
+    position: relative;
+    font-size: 15pt;
+}
+
+input#search {
+    max-width: 32vw;
+}
+
+.sidenav-trigger {
+    display: inline !important;
+}
+
+/* Login and register */
+
+#login-screen {
+    height: 100vh;
+    padding-top: 25px;
+}
+
+.form-button {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+
+/* My certificates */
+
+@media only screen and (min-width: 992px) {
+    .fake-container {
+        margin: 0 auto;
+        max-width: 760px;
+        width: 90%;
+    }
+}
+
+h5 {
+    margin-top: 20px;
+    margin-bottom: 0px;
+}
+
+.card {
+    margin: 0pt;
+}
+
+.card.horizontal .card-image img {
+    margin-left: 1rem;
+    margin-top: 2rem;
+}
+
+.card .card-image {
+    width: 2rem;
+}
+
+.cert-name {
+    color: #444444;
+    font-size: 12pt;
+}
+
+.cert-date, .cert-org {
+    color: #888888
+}

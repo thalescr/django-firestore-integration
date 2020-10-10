@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block nav %}
+    {% include "includes/nav.html" %}
+{% endblock %}
+
+{% block content %}
+    <section id="" class="fake-container">
+        <div class="row">
+            <div class="col s12">
+                <br>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col s12">
+                <form class="card-panel teal" action="" method="POST">
+                    {% csrf_token %}
+                    <h5 class="white-text" style="margin-top: 0px; margin-bottom: 12px;">Certificado</h5>
+                    <div class="form-group">
+                        <label for="" class="white-text">Nome</label>
+                        {{ form.name }}
+                        <!-- <input type="text" class="form-control white-text" name="name" id="name" placeholder="Python Avançado"> -->
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="white-text">Organização</label>
+                        {{ form.organization }}
+                        <!-- <input type="text" class="form-control white-text" name="organization" id="organization" placeholder="Cursos Online"> -->
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="white-text">Data de emissão ou início</label>
+                        {{ form.emission_date }}
+                        <!-- <input type="date" class="form-control white-text" name="emission_date" id="emission_date"> -->
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="white-text">Código da credencial</label>
+                        {{ form.credential_code }}
+                        <!-- <input type="text" class="form-control white-text" name="credential_code" id="credential_code" placeholder="AAAAA0000"> -->
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="white-text">URL da credencial</label>
+                        {{ form.credential_url }}
+                        <!-- <input type="url" class="form-control white-text" name="credential_url" id="credential_url" placeholder="https://"> -->
+                    </div>
+                    <br>
+                    <button type="submit" class="form-button waves-effect waves-light btn teal lighten-2">Concluido</button>
+                    <a href="{{ request.GET.next }}" class="form-button waves-effect waves-light btn teal darken-2">Cancelar</a>
+                </form>
+
+            </div>
+        </div>
+    </section>
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+<section id="login-screen" class="teal lighten-4">
+    <div class="container">
+        <div class="row">
+            <div class="col s12 l6 offset-l3">
+                <br>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s12 l6 offset-l3">
+                <div class="card teal z-depth-4">
+                    <div class="card-content white-text">
+                        <div class="card-title">
+                            Cadastre-se
+                        </div>
+                        <div class="form">
+
+                            <div class="form-group">
+                                <label for="" class="white-text">Nome completo</label>
+                                <input type="text" class="form-control white-text" name="name" id="name" placeholder="João Silva">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="" class="white-text">Foto de perfil</label>
+                                <div class="file-field input-field">
+                                    <div class="btn">
+                                        <span>File</span>
+                                        <input type="file" name="file" id="file">
+                                    </div>
+                                    <div class="file-path-wrapper">
+                                        <input class="file-path validate white-text" type="text" placeholder="São aceitas imagens .png ou .jpg">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="" class="white-text">Email</label>
+                                <input type="email" class="form-control white-text" name="email" id="email" placeholder="joao@email.com">
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="white-text">Telefone</label>
+                                <input type="tel" class="form-control white-text" placeholder="(00) 00000-0000">
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="white-text">Senha</label>
+                                <input type="password" class="form-control white-text" name="" id="" placeholder="*********">
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="white-text">Confirmar senha</label>
+                                <input type="password" class="form-control white-text" name="" id="" placeholder="*********">
+                            </div>
+                            <a href="" class="form-button waves-effect waves-light btn teal lighten-2">Cadastrar</a>
+                            <a href="{{ request.GET.next }}" class="form-button waves-effect waves-light btn teal darken-2">Cancelar</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
