@@ -14,6 +14,12 @@ def check_collection(self):
             }
         )
 
+## Declare a dummy form to confirm deletion
+from django import forms
+class DeleteConfirmForm(forms.Form):
+    def save(self):
+        pass
+
 class ListView(TemplateView):
     """Lists all documents from a collection"""
     collection = None
@@ -38,6 +44,8 @@ class ListView(TemplateView):
         """Add context variable with the same name of collection"""
         context = super().get_context_data(**kwargs)
         context[self.collection] = self.get_queryset()
+        # Confirm delete form
+        context['form'] = DeleteConfirmForm(self.request.POST or None)
         return context
 
 class CreateView(FormView):
@@ -91,13 +99,8 @@ class EditView(DetailView, CreateView):
     def get_initial(self):
         return super().get_object().to_dict()
 
-## Declare a DeleteConfirmForm
-from django import forms
-class DeleteConfirmForm(forms.Form):
-    confirm = forms.BooleanField(required=True)
-
 class DeleteView(EditView):
     """Deletes an object using a form for confirmation."""
     form_class = DeleteConfirmForm
-    def run_database_operation(self):
+    def run_database_operation(self, obj):
         super().get_object().reference.delete()

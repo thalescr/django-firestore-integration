@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block nav %}
+    {% include "includes/nav.html" %}
+{% endblock %}
+
+{% block content %}
+    <section id="" class="fake-container">
+        <div class="row">
+            <div class="col s12">
+                <br>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col s12">
+                <form class="card-panel teal" action="" method="POST">
+                    {% csrf_token %}
+                    <h5 class="white-text" style="margin-top: 0px; margin-bottom: 12px;">Habilidade</h5>
+                    <div class="form-group">
+                        <label for="" class="white-text">Nome</label>
+                        {{ form.name }}
+                        <!-- <input type="text" class="form-control white-text" name="name" id="name" placeholder="Python Avançado"> -->
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="white-text">Nível</label>
+                        {{ form.skill_level }}
+                        <!-- <input class="select-dropdown white-text" ...> -->
+                    </div>
+                    <br>
+                    <button type="submit" class="form-button waves-effect waves-light btn teal lighten-2">Concluido</button>
+                    <a href="{{ request.GET.next }}" class="form-button waves-effect waves-light btn teal darken-2">Cancelar</a>
+                </form>
+
+            </div>
+        </div>
+    </section>
+{% endblock %}

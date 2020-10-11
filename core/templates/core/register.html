@@ -17,11 +17,17 @@
                         <div class="card-title">
                             Cadastre-se
                         </div>
-                        <div class="form">
-
+                        <form method="POST" enctype="multipart/form-data" class="form">
+                            {% csrf_token %}
+                            {% if form.non_field_errors %}
+                                <div class="card-panel red lighten-3 white-text">
+                                    {{ form.non_field_errors }}
+                                </div>
+                            {% endif %}
                             <div class="form-group">
                                 <label for="" class="white-text">Nome completo</label>
-                                <input type="text" class="form-control white-text" name="name" id="name" placeholder="João Silva">
+                                {{ form.name }}
+                                <!-- <input type="text" class="form-control white-text" name="name" id="name" placeholder="João Silva"> -->
                             </div>
 
                             <div class="form-group">
@@ -29,7 +35,8 @@
                                 <div class="file-field input-field">
                                     <div class="btn">
                                         <span>File</span>
-                                        <input type="file" name="file" id="file">
+                                        {{ form.avatar }}
+                                        <!-- <input type="file" name="file" id="file"> -->
                                     </div>
                                     <div class="file-path-wrapper">
                                         <input class="file-path validate white-text" type="text" placeholder="São aceitas imagens .png ou .jpg">
@@ -39,23 +46,27 @@
 
                             <div class="form-group">
                                 <label for="" class="white-text">Email</label>
-                                <input type="email" class="form-control white-text" name="email" id="email" placeholder="joao@email.com">
+                                {{ form.email }}
+                                <!-- <input type="email" class="form-control white-text" name="email" id="email" placeholder="joao@email.com"> -->
                             </div>
                             <div class="form-group">
                                 <label for="" class="white-text">Telefone</label>
-                                <input type="tel" class="form-control white-text" placeholder="(00) 00000-0000">
+                                {{ form.phone }}
+                                <!-- <input type="tel" class="form-control white-text" placeholder="(00) 00000-0000"> -->
                             </div>
                             <div class="form-group">
                                 <label for="" class="white-text">Senha</label>
-                                <input type="password" class="form-control white-text" name="" id="" placeholder="*********">
+                                {{ form.password }}
+                                <!-- <input type="password" class="form-control white-text" name="" id="" placeholder="*********"> -->
                             </div>
                             <div class="form-group">
                                 <label for="" class="white-text">Confirmar senha</label>
-                                <input type="password" class="form-control white-text" name="" id="" placeholder="*********">
+                                {{ form.password2 }}
+                                <!-- <input type="password" class="form-control white-text" name="" id="" placeholder="*********"> -->
                             </div>
-                            <a href="" class="form-button waves-effect waves-light btn teal lighten-2">Cadastrar</a>
+                            <button type="submit" class="form-button waves-effect waves-light btn teal lighten-2">Cadastrar</button>
                             <a href="{{ request.GET.next }}" class="form-button waves-effect waves-light btn teal darken-2">Cancelar</a>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>

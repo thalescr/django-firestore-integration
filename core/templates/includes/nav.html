@@ -3,7 +3,7 @@
 <nav>
     <div class="nav-wrapper teal darken-2 z-depth-3 blue">
         <a href="" class="sidenav-trigger" data-target="slide-out"><i class="material-icons">menu</i></a>
-        <a href="{% url 'cert_list' %}" class="logo left">Certhub</a>
+        <a href="{% url 'home' %}" class="logo left">Certhub</a>
         <i id="search-button" class="right p-right material-icons" style="cursor: pointer;">search</i>
         <form class="right">
             <div class="input-field" style="display: none;">
@@ -26,10 +26,10 @@
         </div>
     </li>
     <li><a href="{% url 'cert_list' %}">Certificados</a></li>
-    <li><a href="#!">Habilidades</a></li>
+    <li><a href="{% url 'skill_list' %}">Habilidades</a></li>
     <li><div class="divider"></div></li>
     <li><a class="subheader">Novo</a></li>
-    <li><a href="{% url 'cert_create' %}">Novo certificado</a></li>
-    <li><a href="#!">Nova habilidade</a></li>
+    <li><a href="{% url 'cert_create' %}?next={{ request.path }}">Novo certificado</a></li>
+    <li><a href="{% url 'skill_create' %}?next={{ request.path }}">Nova habilidade</a></li>
 
 </ul>

@@ -67,6 +67,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'certhub.wsgi.application'
 
+FIREBASE_WEB_API_TOKEN = environ.get('FIREBASE_WEB_API_KEY')
+
 # Initialize firebase
 from firebase_admin import initialize_app, firestore
 FIREBASE_APP = initialize_app()
