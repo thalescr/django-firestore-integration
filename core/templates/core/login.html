@@ -2,6 +2,8 @@
 
 {% load static %}
 
+{% block title %}Login{% endblock %}
+
 {% block content %}
 <section id="login-screen" class="teal lighten-4">
     <div class="container">
@@ -21,6 +23,11 @@
                         </div>
                         <form method="POST" class="form">
                             {% csrf_token %}
+                            {% if request.GET.error %}
+                                <div class="card-panel red lighten-2 white-text">
+                                    {{ request.GET.error }}
+                                </div>
+                            {% endif %}
                             <div class="form-group">
                                 <label for="" class="white-text">Email</label>
                                 {{ form.email }}

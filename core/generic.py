@@ -26,11 +26,11 @@ class ListView(TemplateView):
 
     def get_queryset(self):
         """Return a list of ordered documents from a collection"""
-        check_collection(self)
+        user_id = self.request.session.get('userid')
 
         # Get all objects that belongs to user
         query = db.collection(self.collection)\
-            .where('owner_id', '==', 1).get()
+            .where('owner_id', '==', user_id).get()
         
         # Put all objects as dictionaries in list
         obj_list = list()
@@ -53,6 +53,9 @@ class CreateView(FormView):
     collection = None
 
     def run_database_operation(self, obj):
+        ## Add owner_id field
+        user_id = self.request.session.get('userid')
+        obj['owner_id'] = user_id
         db.collection(self.collection).add(obj)
 
     def form_valid(self, form):

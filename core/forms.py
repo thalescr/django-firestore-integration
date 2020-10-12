@@ -41,10 +41,10 @@ class RegisterForm(forms.Form):
 
     def clean_password2(self):
         # Check that the two password entries match
-        password1 = self.cleaned_data.get("password1")
-        password2 = self.cleaned_data.get("password2")
+        password1 = self.data.get('password1')
+        password2 = self.data.get('password2')
         if password1 and password2 and password1 != password2:
-            raise forms.ValidationError("Senhas não coincidem!")
+            raise forms.ValidationError('Senhas não coincidem!')
         return password2
 
     def save(self):
@@ -61,6 +61,7 @@ class RegisterForm(forms.Form):
             user['avatar'] = new_avatar.public_url
         else:
             user['avatar'] = None
+        print(user)
         return user
 
 # Certs
@@ -100,8 +101,6 @@ class CertForm(forms.Form):
         ## Convert date to datetime
         data['emission_date'] = datetime.combine(self.cleaned_data['emission_date'],
             datetime.min.time())
-        ## Add owner_id field
-        data['owner_id'] = 1
         return data
 
 # Skills
@@ -122,6 +121,4 @@ class SkillForm(forms.Form):
     ))
 
     def save(self):
-        data = self.cleaned_data
-        data['owner_id'] = 1
-        return data
+        return self.cleaned_data
