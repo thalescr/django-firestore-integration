@@ -20,9 +20,10 @@
     <li>
         <div class="user-view">
             <div class="background teal"></div>
-            <a href="#user"><img src="{% static 'assets/img/aurora.jpg' %}" alt="" class="circle"></a>
-            <a href="#user"><span class="white-text name">John Doe</span></a>
-            <a href="#user"><span class="white-text email">jdandturk@gmail.com</span></a>
+            <a href="{% url 'logout' %}" class="right"><i class="material-icons white-text">exit_to_app</i></a>
+            <a href="#user"><img src="{% if user.photoUrl %}{{ user.photoUrl }}{% else %}{% static 'assets/img/aurora.jpg' %}{% endif %}" alt="" class="circle"></a>
+            <a href="#user"><span class="white-text name">{{ user.displayName }}</span></a>
+            <a href="#user"><span class="white-text email">{{ user.email }}</span></a>
         </div>
     </li>
     <li><a href="{% url 'cert_list' %}">Certificados</a></li>

@@ -1,61 +1,50 @@
-from django.views.generic import TemplateView, FormView
+from django.views.generic import TemplateView, FormView, RedirectView
 from django.http import HttpResponseRedirect
-from django.utils.decorators import method_decorator
 
-from core.generic import ListView, CreateView, DetailView, EditView, DetailView, DeleteView
+from core import generic
 from core.forms import LoginForm, RegisterForm, CertForm, SkillForm
-from core.decorators import authenticated, not_authenticated
 
 # Home
 
-@method_decorator(authenticated, name='dispatch')
-class Home(TemplateView):   
+class Home(generic.AuthenticatedMixin, TemplateView):   
     template_name = 'core/home.html'
 
 # Certs
 
-@method_decorator(authenticated, name='dispatch')
-class CertList(ListView):
+class CertList(generic.ListView):
     template_name = 'core/cert_list.html'
     collection = 'certs'
 
-@method_decorator(authenticated, name='dispatch')
-class CertCreate(CreateView):
+class CertCreate(generic.CreateView):
     template_name = 'core/cert_form.html'
     form_class = CertForm
     collection = 'certs'
 
-@method_decorator(authenticated, name='dispatch')
-class CertEdit(EditView):
+class CertEdit(generic.EditView):
     template_name = 'core/cert_form.html'
     collection = 'certs'
     form_class = CertForm
 
-@method_decorator(authenticated, name='dispatch')
-class CertDelete(DeleteView):
+class CertDelete(generic.DeleteView):
     collection = 'certs'
 
 # Skills
 
-@method_decorator(authenticated, name='dispatch')
-class SkillList(ListView):
+class SkillList(generic.ListView):
     template_name = 'core/skill_list.html'
     collection = 'skills'
 
-@method_decorator(authenticated, name='dispatch')
-class SkillCreate(CreateView):
+class SkillCreate(generic.CreateView):
     template_name = 'core/skill_form.html'
     form_class = SkillForm
     collection = 'skills'
 
-@method_decorator(authenticated, name='dispatch')
-class SkillEdit(EditView):
+class SkillEdit(generic.EditView):
     template_name = 'core/skill_form.html'
     collection = 'skills'
     form_class = SkillForm
 
-@method_decorator(authenticated, name='dispatch')
-class SkillDelete(DeleteView):
+class SkillDelete(generic.DeleteView):
     collection = 'skills'
 
 # Authentication
@@ -66,8 +55,7 @@ from firebase_admin import auth
 from django.conf import settings
 from django.contrib.sessions.backends.db import SessionStore
 
-@method_decorator(not_authenticated, name='dispatch')
-class Login(FormView):
+class Login(generic.UnauthenticatedMixin, FormView):
     template_name = 'core/login.html'
     form_class = LoginForm
     success_url = '/'
@@ -83,12 +71,21 @@ class Login(FormView):
         if errors:
             return HttpResponseRedirect(self.request.path + '?error=Login ou senha inválidos')
         self.request.session['sessionid'] = r.get('idToken')
-        self.request.session['userid'] = r.get('localId')
         self.request.session.modified = True
         return super().form_valid(form)
 
-@method_decorator(not_authenticated, name='dispatch')
-class Register(FormView):
+class Logout(generic.AuthenticatedMixin, RedirectView):
+    url = '/login'
+
+    def get(self, request, *args, **kwargs):
+        """Clear session cookies"""
+        try:
+            del request.session['sessionid']
+        except:
+            pass
+        return super().get(request, *args, **kwargs)
+
+class Register(generic.UnauthenticatedMixin, FormView):
     template_name = 'core/register.html'
     form_class = RegisterForm
     success_url = '/login'
