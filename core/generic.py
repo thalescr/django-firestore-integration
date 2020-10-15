@@ -5,35 +5,36 @@ from django.conf import settings
 
 db = settings.FIRESTORE_CLIENT
 
-def parse_id_token(token: str) -> dict:
-    import base64, json
-    parts = token.split(".")
-    if len(parts) != 3:
-        raise Exception("Incorrect id token format")
 
-    payload = parts[1]
-    padded = payload + '=' * (4 - len(payload) % 4)
-    decoded = base64.b64decode(padded)
-    return json.loads(decoded)
 
 class AuthenticatedMixin:
     """Ensure user is logged in and add user information on
     context data."""
     def get_user_data(self):
-        idtoken = self.request.session.get('sessionid', None)
-        return parse_id_token(idtoken) if idtoken else None
+        id = self.request.COOKIES.get('sessionid', None)
+        return db.collection('sessions').document(id).get().to_dict()
 
     def get_user_context(self):
         from firebase_admin import auth
         if self.user_data:
-            return auth.get_user(self.user_data['user_id'])._data
+            try:
+                return auth.get_user(self.user_data['user_id'])._data
+            except auth.UserNotFoundError:
+                return None
 
     def dispatch(self, request, *args, **kwargs):
         from time import time
         self.user_data = self.get_user_data()
+        # If user data was found
         if self.user_data:
+            # If user data is still valid
             if time() < self.user_data['exp']:
-                return super().dispatch(request, *args, **kwargs)
+                # If user exists
+                if self.get_user_context():
+                    return super().dispatch(request, *args, **kwargs)
+                # If user was deleted
+                else:
+                    del request.COOKIES['sessionid']
         return HttpResponseRedirect('/login')
 
     def get_context_data(self, **kwargs):
@@ -44,8 +45,8 @@ class AuthenticatedMixin:
 class UnauthenticatedMixin:
     """Ensure user is logged out."""
     def get_user_data(self):
-        idtoken = self.request.session.get('sessionid', None)
-        return parse_id_token(idtoken) if idtoken else None
+        id = self.request.COOKIES.get('sessionid', None)
+        return db.collection('session').document(id).get().to_dict()
 
     def dispatch(self, request, *args, **kwargs):
         from time import time
@@ -53,15 +54,17 @@ class UnauthenticatedMixin:
         if self.user_data:
             if time() < self.user_data['exp']:
                 return HttpResponseRedirect('/')
+            else:
+                del request.COOKIES['sessionid']
         return super().dispatch(request, *args, **kwargs)
         
 
-def check_collection(self):
-    if not self.collection:
+def check_collection(instance):
+    if not instance.collection:
         raise ImproperlyConfigured(
             "%(cls)s is missing a collection. Define "
             "%(cls)s.collection." % {
-                'cls': self.__class__.__name__
+                'cls': instance.__class__.__name__
             }
         )
 

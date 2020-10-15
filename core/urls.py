@@ -4,6 +4,10 @@ from core import views
 urlpatterns = [
     # Index
     path('', views.Home.as_view(), name='home'),
+
+    # User
+    path('user/<str:id>', views.UserView.as_view(), name='user'),
+
     # Certificates
     path('cert/', views.CertList.as_view(), name='cert_list'),
     path('cert/create', views.CertCreate.as_view(), name='cert_create'),
@@ -18,6 +22,8 @@ urlpatterns = [
 
     # Authentication
     path('login', views.Login.as_view(), name='login'),
+    # path('login-with-google', views.LoginWithGoogle.as_view(), name='login_with_google'),
+    # path('get-id-token', views.GetIdToken.as_view(), name='get_id_token'),
     path('register', views.Register.as_view(), name='register'),
     path('logout', views.Logout.as_view(), name='logout'),
 ]

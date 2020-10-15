@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load iterate_stars %}
+
+{% block title %}Pesquisando {{ query }}{% endblock %}
+
+{% block nav %}
+    {% include "includes/nav.html" %}
+{% endblock %}
+
+{% block content %}
+    <section id="" class="fake-container">
+        <div class="row">
+            <div class="col s11 offset-s1 l8">
+                <h5>Buscando usuários com nome: {{ query }}</h5>
+            </div>
+        </div>
+
+        {% for result in results %}
+            <div class="row">
+                <div class="col s12">
+                    <a href="{% url 'user' result.id %}">
+                        <div class="card-panel">
+                            <div class="row">
+                                <div class="col s2">
+                                    <img class="circle" src="{{ result.photoUrl }}" width="100%" alt="">
+                                </div>
+                                <div class="col s10">
+                                    <h6 class="black-text" style="margin-top: 0px; margin-bottom: 5px;">{{ result.displayName }}</h6>
+                                    <p class="black-text">{{ result.email }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        {% endfor %}
+
+    </section>
+
+
+{% endblock %}

@@ -5,9 +5,9 @@
         <a href="" class="sidenav-trigger" data-target="slide-out"><i class="material-icons">menu</i></a>
         <a href="{% url 'home' %}" class="logo left">Certhub</a>
         <i id="search-button" class="right p-right material-icons" style="cursor: pointer;">search</i>
-        <form class="right">
+        <form method="GET" action="{% url 'home' %}" class="right">
             <div class="input-field" style="display: none;">
-                <input id="search" type="search" required>
+                <input id="search" type="search" name="search" required>
                 <label class="label-icon" for="search"><i class="material-icons">search</i></label>
                 <i id="close-button" class="material-icons">close</i>
             </div>
