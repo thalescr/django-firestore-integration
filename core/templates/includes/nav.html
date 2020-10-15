@@ -3,7 +3,7 @@
 <nav>
     <div class="nav-wrapper teal darken-2 z-depth-3 blue">
         <a href="" class="sidenav-trigger" data-target="slide-out"><i class="material-icons">menu</i></a>
-        <a href="{% url 'home' %}" class="logo left">Certhub</a>
+        <a href="" class="sidenav-trigger logo left" data-target="slide-out">Certhub</a>
         <i id="search-button" class="right p-right material-icons" style="cursor: pointer;">search</i>
         <form method="GET" action="{% url 'home' %}" class="right">
             <div class="input-field" style="display: none;">
@@ -21,9 +21,9 @@
         <div class="user-view">
             <div class="background teal"></div>
             <a href="{% url 'logout' %}" class="right"><i class="material-icons white-text">exit_to_app</i></a>
-            <a href="#user"><img src="{% if user.photoUrl %}{{ user.photoUrl }}{% else %}{% static 'assets/img/aurora.jpg' %}{% endif %}" alt="" class="circle"></a>
-            <a href="#user"><span class="white-text name">{{ user.displayName }}</span></a>
-            <a href="#user"><span class="white-text email">{{ user.email }}</span></a>
+            <a href="{% url 'edit_profile' %}?next={{ request.path }}"><img src="{% if user.photoUrl %}{{ user.photoUrl }}{% else %}{% static 'assets/img/aurora.jpg' %}{% endif %}" alt="" class="circle"></a>
+            <a href="{% url 'edit_profile' %}?next={{ request.path }}"><span class="white-text name">{{ user.displayName }}</span></a>
+            <a href="{% url 'edit_profile' %}?next={{ request.path }}"><span class="white-text email">{{ user.email }}</span></a>
         </div>
     </li>
     <li><a href="{% url 'cert_list' %}">Certificados</a></li>

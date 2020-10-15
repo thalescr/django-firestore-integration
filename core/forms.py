@@ -6,7 +6,7 @@ from django import forms
 class LoginForm(forms.Form):
     email = forms.EmailField(widget=forms.EmailInput(attrs={
         'class': 'form-control white-text',
-        'placeholder': 'joao.silva@email.com'
+        'placeholder': 'joao.silva@example.com'
     }))
     password = forms.CharField(widget=forms.PasswordInput(attrs={
         'class': 'form-control white-text',
@@ -24,7 +24,7 @@ class RegisterForm(forms.Form):
     avatar = forms.FileField(required=False)
     email = forms.EmailField(widget=forms.EmailInput(attrs={
         'class': 'form-control white-text',
-        'placeholder': 'joao.silva@email.com'
+        'placeholder': 'joao.silva@example.com'
     }))
     phone = forms.CharField(widget=forms.TextInput(attrs={
         'class': 'form-control white-text',
@@ -39,10 +39,17 @@ class RegisterForm(forms.Form):
         'placeholder': '**********'
     }))
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.initial:
+            self.fields['password'].required = False
+            self.fields['password2'].required = False
+            self.fields['email'].widget.attrs['readonly'] = 'readonly'
+
     def clean_password2(self):
         # Check that the two password entries match
-        password1 = self.data.get('password1')
-        password2 = self.data.get('password2')
+        password1 = self.cleaned_data.get('password1')
+        password2 = self.cleaned_data.get('password2')
         if password1 and password2 and password1 != password2:
             raise forms.ValidationError('Senhas não coincidem!')
         return password2
@@ -61,7 +68,6 @@ class RegisterForm(forms.Form):
             user['avatar'] = new_avatar.public_url
         else:
             user['avatar'] = None
-        print(user)
         return user
 
 # Certs

@@ -45,3 +45,12 @@ document.addEventListener('DOMContentLoaded', function() {
         select.classList.add('white-text')
     })
 });
+
+// Resize profile picture to square
+function resizeCircle() {
+    document.querySelectorAll('.circle').forEach(circle => {
+        circle.style.height = circle.offsetWidth + 'px';
+    });
+}
+document.addEventListener('DOMContentLoaded', resizeCircle);
+window.addEventListener('resize', resizeCircle);

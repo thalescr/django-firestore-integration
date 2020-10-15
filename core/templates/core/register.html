@@ -21,6 +21,11 @@
                         </div>
                         <form method="POST" enctype="multipart/form-data" class="form">
                             {% csrf_token %}
+                            {% if request.GET.error %}
+                                <div class="card-panel red lighten-2 white-text">
+                                    {{ request.GET.error }}
+                                </div>
+                            {% endif %}
                             {% if form.non_field_errors %}
                                 <div class="card-panel red lighten-3 white-text">
                                     {{ form.non_field_errors }}

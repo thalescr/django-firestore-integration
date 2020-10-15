@@ -29,6 +29,10 @@ input#search {
     display: inline !important;
 }
 
+.circle {
+    object-fit: cover;
+}
+
 /* Login and register */
 
 #login-screen {

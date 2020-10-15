@@ -130,40 +130,11 @@ class Login(generic.UnauthenticatedMixin, FormView):
             return HttpResponseRedirect(self.request.path + '?error=Login ou senha inválidos')        
         # Create user session
         session_data = parse_id_token(r.get('idToken'))
+        session_data['idToken'] = r.get('idToken')
         session = db.collection('sessions').add(session_data)[1]
         response = HttpResponseRedirect(self.success_url)
         response.set_cookie('sessionid', value=session._path[1])
         return response
-"""
-class LoginWithGoogle(generic.UnauthenticatedMixin, RedirectView):
-    url = '/'
-
-    def get(self, request, *args, **kwargs):
-        url = 'https://oauth2.googleapis.com/token'
-        code = request.GET.get('code')
-        data = '{ "code" : "' + code + '", '\
-            + '"client_id" : "' + settings.OAUTH_CLIENT_ID + '", '\
-            + '"client_secret" : "' + settings.OAUTH_CLIENT_SECRET + '", '\
-            + '"redirect_uri" : "http://localhost:8000/get-id-token", '\
-            + '"grant_type" : "authorization_code" }'
-        r = requests.post(url, data).json()
-        print(r)
-        return super().get(request, *args, **kwargs)
-
-class GetIdToken(generic.UnauthenticatedMixin, RedirectView):
-    url = '/'
-
-    def get(self, request, *args, **kwargs):
-        url = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithIdp?key='\
-            + settings.FIREBASE_WEB_API_TOKEN
-        requestUri = request.build_absolute_uri(request.get_full_path())
-        id_token = request.GET.get('id_token')
-        data = '{ "requestUri" : "' + requestUri + '" , "postBody" : "id_token='\
-            + id_token + '&providerId=google.com",\
-            "returnSecureToken" : true, "returnIdpCredential" : true }'
-        r = requests.post(url, data)
-        return super().get(request, *args, **kwargs)
-"""
 
 class Logout(generic.AuthenticatedMixin, RedirectView):
     url = '/login'
@@ -198,3 +169,38 @@ class Register(generic.UnauthenticatedMixin, FormView):
             phone_number=user['phone'], photo_url=user['avatar'], email_verified=True)
         return super().form_valid(form)
         
+class EditProfile(generic.AuthenticatedMixin, FormView):
+    template_name = 'core/register.html'
+    form_class = RegisterForm
+
+    def get_initial(self):
+        initial = self.get_user_context()
+        initial['name'] = initial['displayName']
+        initial['phone'] = initial['phoneNumber']
+        return initial
+
+    def form_valid(self, form):
+        id = self.user_data['user_id']
+        user = form.save()
+        if user['avatar']:
+            auth.update_user(id, photo_url=user['avatar'])
+        if user['password']:
+            url = 'https://identitytoolkit.googleapis.com/v1/accounts:update?key='\
+                + settings.FIREBASE_WEB_API_TOKEN
+            data = '{ "idToken" : "' + self.user_data['idToken'] + '", "password" : "'\
+                + user['password'] + '", "useSecureToken": true }'
+            r = requests.post(url, data).json()
+            errors = r.get('error', False)
+            if errors:
+                return HttpResponseRedirect(self.request.path\
+                    + '?error=Senhas inválidas! Tente novamente')
+            self.success_url = '/logout'
+        auth.update_user(id, display_name=user['name'], phone_number=user['phone'])
+        return super().form_valid(form)
+    
+    def get_success_url(self):
+        if self.success_url:
+            return super().get_success_url()
+        return self.request.GET.get('next', '/')
+
+    
