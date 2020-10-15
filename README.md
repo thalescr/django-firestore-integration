@@ -38,6 +38,8 @@ pip install -r requirements.txt
 ```
 SECRET_KEY=insira_uma_chave_secreta_aqui
 GOOGLE_APPLICATION_CREDENTIALS=/caminho/para/credenciais/do_firebase.json
+FIREBASE_CONFIG={ "storageBucket" : "link-do-bucket-do-firebase.appspot.com" }
+FIREBASE_WEB_API_KEY=CHAVE_DA_API_WEB
 ```
 
 5. Inicie o servidor:

@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 
-{% load static %}
-
-{% block title %}Cadastro{% endblock %}
+{% block title %}
+    {% if user.displayName %}Editar perfil{% else %}Cadastre-se{% endif %}
+{% endblock %}
 
 {% block content %}
 <section id="login-screen" class="teal lighten-4">
@@ -17,7 +17,7 @@
                 <div class="card teal z-depth-4">
                     <div class="card-content white-text">
                         <div class="card-title">
-                            Cadastre-se
+                            {% if user.displayName %}Editar perfil{% else %}Cadastre-se{% endif %}
                         </div>
                         <form method="POST" enctype="multipart/form-data" class="form">
                             {% csrf_token %}

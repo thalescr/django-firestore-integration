@@ -1,5 +1,3 @@
-{% load static %}
-
 <nav>
     <div class="nav-wrapper teal darken-2 z-depth-3 blue">
         <a href="" class="sidenav-trigger" data-target="slide-out"><i class="material-icons">menu</i></a>
@@ -21,7 +19,7 @@
         <div class="user-view">
             <div class="background teal"></div>
             <a href="{% url 'logout' %}" class="right"><i class="material-icons white-text">exit_to_app</i></a>
-            <a href="{% url 'edit_profile' %}?next={{ request.path }}"><img src="{% if user.photoUrl %}{{ user.photoUrl }}{% else %}{% static 'assets/img/aurora.jpg' %}{% endif %}" alt="" class="circle"></a>
+            <a href="{% url 'edit_profile' %}?next={{ request.path }}"><img src="{% if user.photoUrl %}{{ user.photoUrl }}{% else %}https://storage.googleapis.com/certhub-21964.appspot.com/assets/img/user.png{% endif %}" alt="" class="circle"></a>
             <a href="{% url 'edit_profile' %}?next={{ request.path }}"><span class="white-text name">{{ user.displayName }}</span></a>
             <a href="{% url 'edit_profile' %}?next={{ request.path }}"><span class="white-text email">{{ user.email }}</span></a>
         </div>

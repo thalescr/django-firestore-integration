@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 
-{% load static %}
 {% load iterate_stars %}
 
 {% block title %}Pesquisando {{ query }}{% endblock %}
@@ -24,7 +23,7 @@
                         <div class="card-panel">
                             <div class="row">
                                 <div class="col s2">
-                                    <img class="circle" src="{{ result.photoUrl }}" width="100%" alt="">
+                                    <img class="circle" src="{% if result.photoUrl %}{{ result.photoUrl }}{% else %}https://storage.googleapis.com/certhub-21964.appspot.com/assets/img/user.png{% endif %}" width="100%" alt="">
                                 </div>
                                 <div class="col s10">
                                     <h6 class="black-text" style="margin-top: 0px; margin-bottom: 5px;">{{ result.displayName }}</h6>
