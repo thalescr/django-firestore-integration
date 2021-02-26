@@ -1,26 +1,28 @@
-# Certhub
+# Django Firestore Integration
 
-Certhub é uma aplicação web multiusuário destinada a armazenar suas aptidões, além de certificados de cursos e especializações. Este projeto foi escrito em Django usando os seguintes requerimentos:
+This is an example of a web application using Firebase Firestore and Authentication alongside Django.
 
-## Requerimentos
+## Requirements
 
-* Python 3.8 (`python-venv` e `python-pip`)
-* Django 3.1
-* firebase_admin 4.4.0
+* Python 3.8 (`python-venv` and `python-pip`)
+* Django 3.1.7
+* firebase_admin 2.13
+* python-dotenv 0.15
 
 ## Iniciando o projeto
 
-1. Primeiramente, crie uma venv utilizando o seguinte comando:
-
+1. Clone this repository and create a virtual-env in the same directory
 ```sh
-python -m venv venv
+git clone https://github.com/thalescr/django-docx-import.git
+cd django-docx-import
+python3 -m venv venv
 ```
 
-2. Em seguida, é necessário ativar a venv criada:
+2. Activate your virtual-env:
 
 Windows:
 ```sh
-venv/Scripts/activate
+venv\Scripts\activate
 ```
 
 Linux:
@@ -28,21 +30,20 @@ Linux:
 source venv/bin/activate
 ```
 
-3. Depois, instale os requerimentos especificados em `requirements.txt`:
-
+3. Install required Python modules
 ```sh
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 ```
 
-4. Crie um arquivo chamado `.env` na raiz do projeto no seguinte formato:
+4. Create a file called `.env` in project's root directory:
 ```
-SECRET_KEY=insira_uma_chave_secreta_aqui
-GOOGLE_APPLICATION_CREDENTIALS=/caminho/para/credenciais/do_firebase.json
-FIREBASE_CONFIG={ "storageBucket" : "link-do-bucket-do-firebase.appspot.com" }
-FIREBASE_WEB_API_KEY=CHAVE_DA_API_WEB
+SECRET_KEY=project_secret_key_here
+GOOGLE_APPLICATION_CREDENTIALS=/path/to/firebase/credentials.json
+FIREBASE_CONFIG={ "storageBucket" : "firebase-bucket-link.appspot.com" }
+FIREBASE_WEB_API_KEY=firebase_web_api_key_here
 ```
 
-5. Inicie o servidor:
+5. Finally run your server
 ```sh
-python manage.py runserver
+python3 manage.py runserver
 ```
